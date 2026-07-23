@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zikr_app/core/error/failures.dart';
+
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_datasource.dart';
-import '../models/user_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
@@ -16,7 +16,10 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<Either<Failure, UserEntity>> signInWithEmail(String email, String password) async {
+  Future<Either<Failure, UserEntity>> signInWithEmail(
+    String email,
+    String password,
+  ) async {
     try {
       final user = await remoteDataSource.signInWithEmail(email, password);
       return Right(user);
@@ -28,9 +31,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> signUpWithEmail(String email, String password, String displayName) async {
+  Future<Either<Failure, UserEntity>> signUpWithEmail(
+    String email,
+    String password,
+    String displayName,
+  ) async {
     try {
-      final user = await remoteDataSource.signUpWithEmail(email, password, displayName);
+      final user = await remoteDataSource.signUpWithEmail(
+        email,
+        password,
+        displayName,
+      );
       return Right(user);
     } on FirebaseAuthException catch (e) {
       return Left(ServerFailure(_getAuthErrorMessage(e.code)));
@@ -63,10 +74,10 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, void>> updateUser(UserEntity user) async {
     try {
-      await remoteDataSource.updateUserData(
-        user.id,
-        {'displayName': user.displayName, 'photoUrl': user.photoUrl},
-      );
+      await remoteDataSource.updateUserData(user.id, {
+        'displayName': user.displayName,
+        'photoUrl': user.photoUrl,
+      });
       return const Right(null);
     } catch (e) {
       return Left(ServerFailure(e.toString()));

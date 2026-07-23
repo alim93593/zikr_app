@@ -6,6 +6,7 @@ import 'package:zikr_app/core/components/custom_app_bar.dart';
 import 'package:zikr_app/core/di/injection_container.dart' as di;
 import 'package:zikr_app/core/theme/app_colors.dart';
 import 'package:zikr_app/core/widgets/text_field.dart';
+
 import '../cubit/profile_cubit.dart';
 import '../cubit/profile_state.dart';
 
@@ -25,7 +26,8 @@ class _EditProfilePageContent extends StatefulWidget {
   const _EditProfilePageContent();
 
   @override
-  State<_EditProfilePageContent> createState() => _EditProfilePageContentState();
+  State<_EditProfilePageContent> createState() =>
+      _EditProfilePageContentState();
 }
 
 class _EditProfilePageContentState extends State<_EditProfilePageContent> {
@@ -48,7 +50,7 @@ class _EditProfilePageContentState extends State<_EditProfilePageContent> {
 
   void _initializeFromState(ProfileState state) {
     if (!_controllersInitialized && state.profile != null) {
-      _nameController.text = state.profile!.displayName ?? '';
+      _nameController.text = state.profile!.displayName;
       _controllersInitialized = true;
     }
   }
@@ -67,11 +69,15 @@ class _EditProfilePageContentState extends State<_EditProfilePageContent> {
             if (state.status == ProfileStatus.loaded) {
               _initializeFromState(state);
             }
-            if (state.status == ProfileStatus.loaded && state.message == 'updated') {
+            if (state.status == ProfileStatus.loaded &&
+                state.message == 'updated') {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('تم تحديث البيانات بنجاح', style: GoogleFonts.cairo()),
+                  content: Text(
+                    'تم تحديث البيانات بنجاح',
+                    style: GoogleFonts.cairo(),
+                  ),
                   backgroundColor: AppColors.success,
                 ),
               );
@@ -79,7 +85,10 @@ class _EditProfilePageContentState extends State<_EditProfilePageContent> {
             if (state.status == ProfileStatus.error) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(state.message ?? 'حدث خطأ', style: GoogleFonts.cairo()),
+                  content: Text(
+                    state.message ?? 'حدث خطأ',
+                    style: GoogleFonts.cairo(),
+                  ),
                   backgroundColor: AppColors.error,
                 ),
               );
@@ -87,7 +96,8 @@ class _EditProfilePageContentState extends State<_EditProfilePageContent> {
             }
           },
           builder: (context, state) {
-            if (state.status == ProfileStatus.loading && !_controllersInitialized) {
+            if (state.status == ProfileStatus.loading &&
+                !_controllersInitialized) {
               return const Center(child: CircularProgressIndicator());
             }
             _initializeFromState(state);
@@ -207,10 +217,7 @@ class _EditProfilePageContentState extends State<_EditProfilePageContent> {
             children: [
               Text(
                 label,
-                style: GoogleFonts.cairo(
-                  fontSize: 12,
-                  color: AppColors.muted,
-                ),
+                style: GoogleFonts.cairo(fontSize: 12, color: AppColors.muted),
               ),
               const SizedBox(height: 4),
               Text(
@@ -293,7 +300,9 @@ class _EditProfilePageContentState extends State<_EditProfilePageContent> {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.5),
           elevation: 4,
           shadowColor: AppColors.primary.withValues(alpha: 0.4),
@@ -302,7 +311,10 @@ class _EditProfilePageContentState extends State<_EditProfilePageContent> {
             ? const SizedBox(
                 width: 24,
                 height: 24,
-                child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                ),
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -311,7 +323,10 @@ class _EditProfilePageContentState extends State<_EditProfilePageContent> {
                   const SizedBox(width: 8),
                   Text(
                     'حفظ التغييرات',
-                    style: GoogleFonts.cairo(fontSize: 18, fontWeight: FontWeight.w600),
+                    style: GoogleFonts.cairo(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),

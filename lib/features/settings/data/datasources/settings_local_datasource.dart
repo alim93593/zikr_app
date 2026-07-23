@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zikr_app/features/settings/data/models/settings_model.dart';
 
@@ -47,8 +46,14 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
     await sharedPreferences.setBool(_darkModeKey, settings.isDarkMode);
     await sharedPreferences.setString(_langKey, settings.language);
     await sharedPreferences.setBool(_notifKey, settings.notificationsEnabled);
-    await sharedPreferences.setString(_morningKey, settings.morningReminderTime);
-    await sharedPreferences.setString(_eveningKey, settings.eveningReminderTime);
+    await sharedPreferences.setString(
+      _morningKey,
+      settings.morningReminderTime,
+    );
+    await sharedPreferences.setString(
+      _eveningKey,
+      settings.eveningReminderTime,
+    );
     await sharedPreferences.setDouble(_fontSizeKey, settings.fontSize);
   }
 
